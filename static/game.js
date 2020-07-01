@@ -34,10 +34,10 @@ function update(game) {
         game.setDot(item.x, item.y, Color.Green);
     }
     game.setDot(player.x, player.y, Color.Black);
-    game.setText('Time left: ${timeRemaining}s. Score: ${score}s');
+    game.setText(`Time left: ${timeRemaining}s. Score: ${score}s`);
 
     if (timeRemaining <= 0) {
-        game.setText('Game over! Finale score: ${score}');
+        game.setText(`Game over! Final score: ${score}`);
         game.end();
     }
 }
