@@ -2,6 +2,8 @@ let player = {};
 let items = [];
 let timeRemaining = 45;
 let interval = setInterval(decreaseTimer, 1000);
+let score = 0;
+
 
 function decreaseTimer() {
     timeRemaining--;
@@ -34,12 +36,22 @@ function update(game) {
         game.setDot(item.x, item.y, Color.Green);
     }
     game.setDot(player.x, player.y, Color.Black);
-    game.setText(`Time left: ${timeRemaining}s. Score: ${score}s`);
+    game.setText(`Time left: ${timeRemaining}s. Score: ${score}`);
 
     if (timeRemaining <= 0) {
         game.setText(`Game over! Final score: ${score}`);
         game.end();
     }
+
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.x == player.x && item.y == player.y) {
+            score++;
+            items.splice(i, 1);
+            break;
+        }
+    }
+
 }
 
 function onKeyPress(direction) {
