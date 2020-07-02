@@ -1,5 +1,3 @@
-
-let player = {};
 let items = [];
 let timeRemaining = 45;
 let interval = setInterval(decreaseTimer, 1000);
@@ -15,76 +13,98 @@ function decreaseTimer() {
 }
 
 
-function create(game) {
-    player = {
-        x: 5,
-        y: 10,
-    };
-    game.setDot(player.x, player.y, Color.Black);
-}
+function create(game) {}
 
 function update(game) {
     let item = {};
-
-    // if (Math.random() < .05) {
-    //     item = {
-    //         x: Math.floor(Math.random() * 24),
-    //         y: Math.floor(Math.random() * 24),
-    //     };
-    //     if (item.x !== player.x || item.y !== player.y) {
-    //         items.push(item);
-    //     }
-    // }
-    for (item of items) {
-        game.setDot(item.x, item.y, Color.Green);
+    for (let item of items) {
+        game.setDot(item.x, item.y, Color.Black);
     }
-    game.setDot(player.x, player.y, Color.Black);
-    // game.setText(`Time left: ${timeRemaining}s. Score: ${score}`);
 
     if (timeRemaining <= 0) {
         game.setText(`Game over! Final score: ${score}`);
         game.end();
     }
 
-    for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        if (item.x == player.x && item.y == player.y) {
-            score++;
-            items.splice(i, 1);
-            break;
-        }
+}
+
+function n_count(x, y) {
+    let count = 0
+    try {
+        if (game.getDot(x + 1, y) == 'BLACK') {
+            count++;
+        };
+        if (game.getDot(x + 1, y + 1) == 'BLACK') {
+            count++;
+        };
+        if (game.getDot(x - 1, y - 1) == 'BLACK') {
+            count++;
+        };
+        if (game.getDot(x + 1, y - 1) == 'BLACK') {
+            count++;
+        };
+        if (game.getDot(x - 1, y + 1) == 'BLACK') {
+            count++;
+        };
+
+        if (game.getDot(x - 1, y) == 'BLACK') {
+            count++;
+        };
+
+        if (game.getDot(x, y + 1) == 'BLACK') {
+            count++;
+        };
+
+        if (game.getDot(x, y - 1) == 'BLACK') {
+            count++;
+        };
+    } catch (error) {
+        return 0;
     }
+    return count
 
 }
 
 function onKeyPress(direction) {
-    if (direction == Direction.Up && player.y > 0) {
-        player.y--;
-    }
-    if (direction == Direction.Down && player.y < 23) {
-        player.y++;
-    }
-    if (direction == Direction.Left && player.x > 0) {
-        player.x--;
-    }
-    if (direction == Direction.Right && player.x < 23) {
-        player.x++;
-    }
-
-
+    newBoard()
+    return;
 
 }
 
+function newBoard() {
+    for (let x = 0;x < 24;x++) {
+        for (let y = 0;y < 24;y++) {
+            let count = n_count(x,y)
+            let dotColor = game.getDot(x,y)
+            if (dotColor == 'BLACK' && count < 2) {
+                let item = {x: x, y: y}
+                items.push(item)
+        }
+
+    }
+    }}
+
 function onDotClicked(x, y) {
-    let item = {
-        x: x,
-        y: y
-    };
-    if (item.x !== player.x || item.y !== player.y) {
+    if (game.getDot(x, y) == 'GRAY') {
+        let item = {
+            x: x,
+            y: y
+        };
         items.push(item);
+        console.log(n_count(x, y))
+
+    } else {
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i]
+            if (item.x == x && item.y == y) {
+                items.splice(i, 1);
+                break;
+            }
+        }
     }
 
-    let dotColor = game.getDot(x, y)
+
+
     return;
 }
 
