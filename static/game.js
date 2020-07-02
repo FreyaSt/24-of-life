@@ -113,6 +113,7 @@ const config = {
     update: update,
     onKeyPress: onKeyPress,
     onDotClicked: onDotClicked,
+    containerId: 'gameCon'
 }
 
 let game = new Game(config)
