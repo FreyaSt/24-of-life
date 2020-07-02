@@ -1,11 +1,9 @@
 backports-abc==0.5
 click==7.1.2
 Flask==1.1.2
-futures==3.3.0
 gunicorn==19.10.0
 itsdangerous==1.1.0
 Jinja2==2.11.2
-livereload==2.6.2
 MarkupSafe==1.1.1
 singledispatch==3.4.0.3
 six==1.15.0
