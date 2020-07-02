@@ -1,3 +1,4 @@
+
 let player = {};
 let items = [];
 let timeRemaining = 45;
@@ -13,6 +14,7 @@ function decreaseTimer() {
 
 }
 
+
 function create(game) {
     player = {
         x: 5,
@@ -22,21 +24,22 @@ function create(game) {
 }
 
 function update(game) {
+    let item = {};
 
-    if (Math.random() < .05) {
-        item = {
-            x: Math.floor(Math.random() * 24),
-            y: Math.floor(Math.random() * 24),
-        };
-        if (item.x !== player.x || item.y !== player.y) {
-            items.push(item);
-        }
-    }
+    // if (Math.random() < .05) {
+    //     item = {
+    //         x: Math.floor(Math.random() * 24),
+    //         y: Math.floor(Math.random() * 24),
+    //     };
+    //     if (item.x !== player.x || item.y !== player.y) {
+    //         items.push(item);
+    //     }
+    // }
     for (item of items) {
         game.setDot(item.x, item.y, Color.Green);
     }
     game.setDot(player.x, player.y, Color.Black);
-    game.setText(`Time left: ${timeRemaining}s. Score: ${score}`);
+    // game.setText(`Time left: ${timeRemaining}s. Score: ${score}`);
 
     if (timeRemaining <= 0) {
         game.setText(`Game over! Final score: ${score}`);
@@ -72,10 +75,26 @@ function onKeyPress(direction) {
 
 }
 
+function onDotClicked(x, y) {
+    let item = {
+        x: x,
+        y: y
+    };
+    console.log(item)
+    if (item.x !== player.x || item.y !== player.y) {
+        items.push(item);
+    }
+
+    let dotColor = game.getDot(x, y)
+    console.log(game)
+    return;
+}
+
 const config = {
     create: create,
     update: update,
     onKeyPress: onKeyPress,
+    onDotClicked: onDotClicked,
 }
 
 let game = new Game(config)
