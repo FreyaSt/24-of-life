@@ -85,7 +85,6 @@ function onDotClicked(x, y) {
     }
 
     let dotColor = game.getDot(x, y)
-    console.log(game)
     return;
 }
 
