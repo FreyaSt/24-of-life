@@ -80,7 +80,6 @@ function onDotClicked(x, y) {
         x: x,
         y: y
     };
-    console.log(item)
     if (item.x !== player.x || item.y !== player.y) {
         items.push(item);
     }
