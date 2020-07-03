@@ -1,8 +1,15 @@
-let items = [];
-let timeRemaining = 45;
-let interval = setInterval(decreaseTimer, 1000);
-let score = 0;
-let active = true
+let active = true;
+let board_state = {};
+
+for (let x = 0; x < 24; x++) {
+    let board_row = {}
+    for (let y = 0; y < 24; y++) {
+        if (board_row[y] != 'GRAY') {
+            board_row[y] = 'GRAY';
+        }
+        board_state[x] = board_row
+    }
+}
 
 function decreaseTimer() {
     timeRemaining--;
@@ -13,19 +20,24 @@ function decreaseTimer() {
 }
 
 function create(game) {
-    game.setText('Edit Mode')}
+    console.log(board_state)
+    game.setText('Edit Mode')
+}
+
+
+
+function populateBoard(board) {
+    for (let x = 0; x < 24; x++) {
+        for (let y = 0; y < 24; y++) {
+            game.setDot(x, y, board[x][y])
+        }
+    }
+
+
+}
 
 function update(game) {
-    let item = {};
-    for (let item of items) {
-        game.setDot(item.x, item.y, Color.Black);
-    }
-
-    if (timeRemaining <= 0) {
-        game.setText(`Game over! Final score: ${score}`);
-        game.end();
-    }
-
+    populateBoard(board_state)
 }
 
 function n_count(x, y) {
@@ -66,9 +78,9 @@ function n_count(x, y) {
 }
 
 function onKeyPress(direction) {
-    active ? (active = false) : (active = true)
-    console.log("Switched active to", (active))
-    game.setText(active ? "Edit Mode" : "Sim Mode")
+    active ? (active = false) : (active = true);
+    game.setText(active ? "Edit Mode" : "Sim Mode");
+    populateBoard(board_state);
     return;
 
 }
@@ -93,28 +105,21 @@ function newBoard() {
 function onDotClicked(x, y) {
     if (active) {
         if (game.getDot(x, y) == 'GRAY') {
-            let item = {
-                x: x,
-                y: y
-            };
-            items.push(item);
-            console.log(n_count(x, y))
+            board_state[x][y] = 'BLACK'
 
         } else {
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i]
-                if (item.x == x && item.y == y) {
-                    items.splice(i, 1);
-                    break;
-                }
-            }
+            board_state[x][y] = 'GRAY'
+
         }
     }
 
 
-
-    return;
 }
+
+
+
+
+
 
 const config = {
     create: create,
