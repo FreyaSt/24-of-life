@@ -1,7 +1,8 @@
 let active = true;
 let board_state = [];
 const BOARD_SIZE = 24;
-
+const FRAME_RATE = 2;
+const containerId = 'gameCon'
 
 for (let x = 0; x < BOARD_SIZE; x++) {
     let board_row = {}
@@ -35,15 +36,17 @@ function parseBoard(board) {
 
     for (let x = 0; x < BOARD_SIZE; x++) {
         for (let y = 0; y < BOARD_SIZE; y++) {
+            
             if (board[x][y] == 'BLACK' && n_count(x, y) < 2) {
-                console.log(`Killing dot at ${x},${y}`)
                 newBoard[x][y] = 'GRAY'
-            } else if (board[x][y] == 'BLACK' && n_count(x,y) > 3) {
+            } else if (board[x][y] == 'BLACK' && n_count(x, y) > 3) {
                 newBoard[x][y] = 'GRAY'
-            } else if (board[x][y] == 'GRAY' && n_count(x,y) === 3) {
+            } else if (board[x][y] == 'BLACK' && n_count(x, y) == 2 || n_count(x, y) == 3) {
+                newBoard[x][y] = 'BLACK'
+            } else if (board[x][y] == 'GRAY' && n_count(x, y) === 3) {
                 newBoard[x][y] = 'BLACK'
             } else {
-            newBoard[x][y] = board[x][y]
+                newBoard[x][y] = 'GRAY'
             }
         }
     }
@@ -53,12 +56,11 @@ function parseBoard(board) {
 
 
 function update(game) {
-    
+
+    populateBoard(board_state)
     if (!active) {
         board_state = parseBoard(board_state);
-        console.log(board_state)
     }
-    populateBoard(board_state)
 }
 
 function n_count(x, y) {
@@ -101,7 +103,7 @@ function n_count(x, y) {
 function onKeyPress(direction) {
     active ? (active = false) : (active = true);
     game.setText(active ? "Edit Mode" : "Sim Mode");
-    // board_state = parseBoard(board_state)
+    board_state = parseBoard(board_state)
     return
 
 }
@@ -130,8 +132,8 @@ const config = {
     update: update,
     onKeyPress: onKeyPress,
     onDotClicked: onDotClicked,
-    containerId: 'gameCon',
-    frameRate: 1,
+    containerId: containerId,
+    frameRate: FRAME_RATE,
 }
 
 let game = new Game(config)
