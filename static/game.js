@@ -1,9 +1,11 @@
 let active = true;
-let board_state = {};
+let board_state = [];
+const BOARD_SIZE = 24;
 
-for (let x = 0; x < 24; x++) {
+
+for (let x = 0; x < BOARD_SIZE; x++) {
     let board_row = {}
-    for (let y = 0; y < 24; y++) {
+    for (let y = 0; y < BOARD_SIZE; y++) {
         if (board_row[y] != 'GRAY') {
             board_row[y] = 'GRAY';
         }
@@ -11,32 +13,38 @@ for (let x = 0; x < 24; x++) {
     }
 }
 
-function decreaseTimer() {
-    timeRemaining--;
-    if (timeRemaining == 0) {
-        clearInterval(interval)
-    }
-
-}
-
 function create(game) {
-    console.log(board_state)
     game.setText('Edit Mode')
 }
 
 
 
 function populateBoard(board) {
-    for (let x = 0; x < 24; x++) {
-        for (let y = 0; y < 24; y++) {
+    for (let x = 0; x < BOARD_SIZE; x++) {
+        for (let y = 0; y < BOARD_SIZE; y++) {
             game.setDot(x, y, board[x][y])
         }
     }
-
-
 }
 
+function parseBoard(board) {
+    let newBoard = new Array(BOARD_SIZE)
+    for (let i in board) {
+        newBoard[i] = new Array(BOARD_SIZE)
+    }
+
+    for (let x = 0; x < BOARD_SIZE; x++) {
+        for (let y = 0; y < BOARD_SIZE; y++) {
+            newBoard[x][y] = board[x][y]
+        }
+    }
+
+    return newBoard
+}
+
+
 function update(game) {
+    board_state = parseBoard(board_state)
     populateBoard(board_state)
 }
 
@@ -80,26 +88,9 @@ function n_count(x, y) {
 function onKeyPress(direction) {
     active ? (active = false) : (active = true);
     game.setText(active ? "Edit Mode" : "Sim Mode");
-    populateBoard(board_state);
-    return;
+    console.log(parseBoard(board_state));
+    return
 
-}
-
-function newBoard() {
-    for (let x = 0; x < 24; x++) {
-        for (let y = 0; y < 24; y++) {
-            let count = n_count(x, y)
-            let dotColor = game.getDot(x, y)
-            if (dotColor == 'BLACK' && count < 2) {
-                let item = {
-                    x: x,
-                    y: y
-                }
-                items.push(item)
-            }
-
-        }
-    }
 }
 
 function onDotClicked(x, y) {
@@ -126,7 +117,8 @@ const config = {
     update: update,
     onKeyPress: onKeyPress,
     onDotClicked: onDotClicked,
-    containerId: 'gameCon'
+    containerId: 'gameCon',
+    frameRate: 1,
 }
 
 let game = new Game(config)
