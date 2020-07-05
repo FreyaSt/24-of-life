@@ -2,20 +2,33 @@ let active = true;
 let board_state = [];
 const BOARD_SIZE = 24;
 const FRAME_RATE = 2;
-const containerId = 'gameCon'
+const containerId = 'gameCon';
+const editMessage = 'Paused - Press an arrow key to continue.';
+const playMessage = 'Running - Press an arrow key to pause.';
+const startMessage = "Press an arrow key when you're ready to begin";
+const deadColor = 'GRAY';
+const liveColor = 'INDIGO';
 
-for (let x = 0; x < BOARD_SIZE; x++) {
-    let board_row = {}
-    for (let y = 0; y < BOARD_SIZE; y++) {
-        if (board_row[y] != 'GRAY') {
-            board_row[y] = 'GRAY';
+
+// Initialize board
+
+function initBoard() {
+    let newBoard = []
+    for (let x = 0; x < BOARD_SIZE; x++) {
+        let board_row = {}
+        for (let y = 0; y < BOARD_SIZE; y++) {
+            if (board_row[y] != deadColor) {
+                board_row[y] = deadColor;
+            }
+            newBoard[x] = board_row;
         }
-        board_state[x] = board_row
     }
+    return newBoard;
 }
 
 function create(game) {
-    game.setText('Edit Mode')
+    board_state = initBoard()
+    game.setText(startMessage)
 }
 
 
@@ -36,17 +49,18 @@ function parseBoard(board) {
 
     for (let x = 0; x < BOARD_SIZE; x++) {
         for (let y = 0; y < BOARD_SIZE; y++) {
-            
-            if (board[x][y] == 'BLACK' && n_count(x, y) < 2) {
-                newBoard[x][y] = 'GRAY'
-            } else if (board[x][y] == 'BLACK' && n_count(x, y) > 3) {
-                newBoard[x][y] = 'GRAY'
-            } else if (board[x][y] == 'BLACK' && n_count(x, y) == 2 || n_count(x, y) == 3) {
-                newBoard[x][y] = 'BLACK'
-            } else if (board[x][y] == 'GRAY' && n_count(x, y) === 3) {
-                newBoard[x][y] = 'BLACK'
+            let board_val = board[x][y];
+            let count = n_count(x, y);
+            if (board_val == liveColor && count < 2) {
+                newBoard[x][y] = deadColor
+            } else if (board_val == liveColor && count > 3) {
+                newBoard[x][y] = deadColor
+            } else if (board_val == liveColor) {
+                newBoard[x][y] = liveColor
+            } else if (board_val == deadColor && count === 3) {
+                newBoard[x][y] = liveColor
             } else {
-                newBoard[x][y] = 'GRAY'
+                newBoard[x][y] = deadColor
             }
         }
     }
@@ -66,31 +80,31 @@ function update(game) {
 function n_count(x, y) {
     let count = 0
     try {
-        if (game.getDot(x + 1, y) == 'BLACK') {
+        if (game.getDot(x + 1, y) == liveColor) {
             count++;
         };
-        if (game.getDot(x + 1, y + 1) == 'BLACK') {
+        if (game.getDot(x + 1, y + 1) == liveColor) {
             count++;
         };
-        if (game.getDot(x - 1, y - 1) == 'BLACK') {
+        if (game.getDot(x - 1, y - 1) == liveColor) {
             count++;
         };
-        if (game.getDot(x + 1, y - 1) == 'BLACK') {
+        if (game.getDot(x + 1, y - 1) == liveColor) {
             count++;
         };
-        if (game.getDot(x - 1, y + 1) == 'BLACK') {
-            count++;
-        };
-
-        if (game.getDot(x - 1, y) == 'BLACK') {
+        if (game.getDot(x - 1, y + 1) == liveColor) {
             count++;
         };
 
-        if (game.getDot(x, y + 1) == 'BLACK') {
+        if (game.getDot(x - 1, y) == liveColor) {
             count++;
         };
 
-        if (game.getDot(x, y - 1) == 'BLACK') {
+        if (game.getDot(x, y + 1) == liveColor) {
+            count++;
+        };
+
+        if (game.getDot(x, y - 1) == liveColor) {
             count++;
         };
     } catch (error) {
@@ -102,7 +116,7 @@ function n_count(x, y) {
 
 function onKeyPress(direction) {
     active ? (active = false) : (active = true);
-    game.setText(active ? "Edit Mode" : "Sim Mode");
+    game.setText(active ? editMessage : playMessage);
     board_state = parseBoard(board_state)
     return
 
@@ -110,11 +124,11 @@ function onKeyPress(direction) {
 
 function onDotClicked(x, y) {
     if (active) {
-        if (game.getDot(x, y) == 'GRAY') {
-            board_state[x][y] = 'BLACK'
+        if (game.getDot(x, y) == deadColor) {
+            board_state[x][y] = liveColor
 
         } else {
-            board_state[x][y] = 'GRAY'
+            board_state[x][y] = deadColor
 
         }
     }
