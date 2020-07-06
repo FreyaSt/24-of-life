@@ -132,7 +132,7 @@ function onDotClicked(x, y) {
 
         }
     }
-
+    populateBoard(board_state);
 
 }
 
