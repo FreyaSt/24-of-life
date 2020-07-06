@@ -13,9 +13,9 @@ const liveColor = 'INDIGO';
 // Initialize board
 
 function initBoard() {
-    let newBoard = []
+    let newBoard = [];
     for (let x = 0; x < BOARD_SIZE; x++) {
-        let board_row = {}
+        let board_row = {};
         for (let y = 0; y < BOARD_SIZE; y++) {
             if (board_row[y] != deadColor) {
                 board_row[y] = deadColor;
@@ -27,8 +27,8 @@ function initBoard() {
 }
 
 function create(game) {
-    board_state = initBoard()
-    game.setText(startMessage)
+    board_state = initBoard();
+    game.setText(startMessage);
 }
 
 
@@ -36,15 +36,15 @@ function create(game) {
 function populateBoard(board) {
     for (let x = 0; x < BOARD_SIZE; x++) {
         for (let y = 0; y < BOARD_SIZE; y++) {
-            game.setDot(x, y, board[x][y])
+            game.setDot(x, y, board[x][y]);
         }
     }
 }
 
 function parseBoard(board) {
-    let newBoard = new Array(BOARD_SIZE)
+    let newBoard = new Array(BOARD_SIZE);
     for (let i in board) {
-        newBoard[i] = new Array(BOARD_SIZE)
+        newBoard[i] = new Array(BOARD_SIZE);
     }
 
     for (let x = 0; x < BOARD_SIZE; x++) {
@@ -52,26 +52,26 @@ function parseBoard(board) {
             let board_val = board[x][y];
             let count = n_count(x, y);
             if (board_val == liveColor && count < 2) {
-                newBoard[x][y] = deadColor
+                newBoard[x][y] = deadColor;
             } else if (board_val == liveColor && count > 3) {
-                newBoard[x][y] = deadColor
+                newBoard[x][y] = deadColor;
             } else if (board_val == liveColor) {
-                newBoard[x][y] = liveColor
+                newBoard[x][y] = liveColor;
             } else if (board_val == deadColor && count === 3) {
-                newBoard[x][y] = liveColor
+                newBoard[x][y] = liveColor;
             } else {
-                newBoard[x][y] = deadColor
+                newBoard[x][y] = deadColor;
             }
         }
     }
 
-    return newBoard
+    return newBoard;
 }
 
 
 function update(game) {
 
-    populateBoard(board_state)
+    populateBoard(board_state);
     if (!active) {
         board_state = parseBoard(board_state);
     }
@@ -110,14 +110,14 @@ function n_count(x, y) {
     } catch (error) {
         return 0;
     }
-    return count
+    return count;
 
 }
 
 function onKeyPress(direction) {
     active ? (active = false) : (active = true);
     game.setText(active ? editMessage : playMessage);
-    board_state = parseBoard(board_state)
+    board_state = parseBoard(board_state);
     return
 
 }
@@ -125,10 +125,10 @@ function onKeyPress(direction) {
 function onDotClicked(x, y) {
     if (active) {
         if (game.getDot(x, y) == deadColor) {
-            board_state[x][y] = liveColor
+            board_state[x][y] = liveColor;
 
         } else {
-            board_state[x][y] = deadColor
+            board_state[x][y] = deadColor;
 
         }
     }
@@ -150,5 +150,5 @@ const config = {
     frameRate: FRAME_RATE,
 }
 
-let game = new Game(config)
-game.run()
+let game = new Game(config);
+game.run();
