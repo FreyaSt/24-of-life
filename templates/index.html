@@ -4,32 +4,21 @@
 <head>
     <meta charset='utf=8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
     <script src="{{ url_for('static', filename='engine.js') }}"></script>
     <!-- /* <script src="https://cdn.jsdelivr.net/gh/jamesroutley/24a2@v0.1/build/engine.js"></script> */ -->
     <script src="{{ url_for('static', filename='game.js') }}" type="module"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='game.css') }}"></script>
     <title>Conway's Game of Life</title>
 </head>
 
 <body>
-    <div class="row">
-        <div class="col-lg-12">
-            <div id="gameCon" style="padding-left: 0;
-                     padding-right: 0;
-                     margin-left: auto;
-                     margin-right: auto;
-                     display: block;
-                     width: 800px;
-                     margin-top: 20px;
-
-
-
-                 ">
-                <p>This implements <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank">Conway's Game of Life</a> using James Routley's <a href="https://24a2.routley.io/">24a2 engine.</a></p></div>
-        </div>
+    <div>
+        <div class="gameFrame">
+           <div id="gameCon">
+                <p>This implements <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank">Conway's Game of Life</a> using James Routley's <a href="https://24a2.routley.io/">24a2 engine</a>.</p></div>
+        <a href="https://github.com/FreyaSt/24-of-life" target="_blank">Repo</a>
+    </div>
     </div>
 </body>
 
