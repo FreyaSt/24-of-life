@@ -11,6 +11,21 @@ const deadColor = 'GRAY'; //Color enumeration available at https://24a2.routley.
 const liveColor = 'INDIGO';
 
 
+// Holding place for event listeners
+const clearBoard = document.getElementById('clearBoard').addEventListener('click', function () {
+    boardState = initBoard();
+})
+
+const demoGlider = document.getElementById('demoGlider').addEventListener('click', function() {
+    boardState = initBoard();
+    boardState[1][3] = liveColor;
+    boardState[2][3] = liveColor;
+    boardState[3][3] = liveColor;
+    boardState[3][2] = liveColor;
+    boardState[2][1] = liveColor;
+})
+
+
 // Returns an entirely dead board
 function initBoard() {
     let newBoard = [];
