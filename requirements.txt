@@ -3,7 +3,7 @@ click==7.1.2
 Flask==1.1.2
 gunicorn==19.10.0
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 singledispatch==3.4.0.3
 six==1.15.0
